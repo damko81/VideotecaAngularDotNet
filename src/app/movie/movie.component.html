@@ -21,7 +21,7 @@
        </form>
     </div>
 </nav>
-
+<mat-progress-bar *ngIf="loadProgress" mode="indeterminate"></mat-progress-bar>
 <div class="container" id="main-container">
     <div class="row">
        <div *ngFor="let movie of movies" class="col-md-6 col-xl-3">

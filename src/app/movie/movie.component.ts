@@ -14,6 +14,7 @@ export class MovieComponent implements OnInit {
   public movies?: Movie[];
   public editMovie?: Movie | null;
   public deleteMovie?: Movie | null;
+  loadProgress = false;
   message = '';
 
   constructor(private movieService: MovieService){}
@@ -32,6 +33,7 @@ export class MovieComponent implements OnInit {
         alert(error.message);
       }
     );
+    this.loadProgress = false;
   }
 
   public onAddMovie(addForm: NgForm): void{
@@ -96,7 +98,7 @@ export class MovieComponent implements OnInit {
   }
 
   public onLoadMovies(disc: string): void{
-   
+    this.loadProgress = true; // Težava zaradi async funkcije na backend in ne deluje pravilno progressbar.
     document.getElementById('load-movies-form')?.click();
     this.movieService.loadMovies(disc).subscribe(
       (event: any) => {
