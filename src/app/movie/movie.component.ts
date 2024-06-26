@@ -11,6 +11,7 @@ import { HttpErrorResponse } from '@angular/common/http';
 export class MovieComponent implements OnInit {
 
   public movies?: Movie[];
+  public deleteMovie?: Movie | null;
 
   constructor(private movieService: MovieService){}
 
@@ -28,6 +29,34 @@ export class MovieComponent implements OnInit {
         alert(error.message);
       }
     );
+  }
+
+  public onDeleteMovie(movieId?: number): void{
+    this.movieService.deleteMovie(movieId).subscribe(
+      (response: void) => {
+        console.log(response);
+        this.getMovies();
+      },
+      (error: HttpErrorResponse) => {
+        alert(error.message);
+      }
+    );
+  }
+
+  public onOpenModal(movie: Movie | null, mode?: string): void {
+    const container = document.getElementById('main-container');
+    const button = document.createElement('button');
+    button.type = 'button';
+    button.style.display = 'none';
+    button.setAttribute('data-toggle', 'modal');
+    
+    if (mode === 'delete') {
+      this.deleteMovie = movie;
+      button.setAttribute('data-target', '#deleteMovieModal');
+    }
+    
+    container?.appendChild(button);
+    button.click();
   }
 
   public searchMovies(key: string): void {

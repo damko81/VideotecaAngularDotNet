@@ -17,4 +17,8 @@ export class MovieService {
     return this.http.get<Movie[]>(`${this.apiServerUrl}/api/MovieAPI`);
   }
 
+  public deleteMovie(movieid?: number): Observable<void>{
+    return this.http.delete<void>(`${this.apiServerUrl}/api/MovieAPI/${movieid}`);
+  }
+
 }
