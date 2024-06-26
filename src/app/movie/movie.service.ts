@@ -28,12 +28,9 @@ export class MovieService {
   public loadMovies(disc: string): Observable<HttpEvent<any>>{
     let discTmp: string = disc.replace(/\\/, '!');
     const req = new HttpRequest('POST', `${this.apiServerUrl}/api/MovieAPI/${discTmp}`,{
-      reportProgress: true,
       responseType: 'text'
     });
-
     return this.http.request(req);
-
   }
 
   public deleteMovie(movieid?: number): Observable<void>{
