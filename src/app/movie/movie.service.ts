@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { HttpClient, HttpEvent} from '@angular/common/http';
+import { HttpClient, HttpEvent, HttpHeaders} from '@angular/common/http';
 import { environment } from 'src/environments/environment.development';
 import { Movie } from './movie';
 import { Observable } from 'rxjs';
@@ -15,6 +15,10 @@ export class MovieService {
 
   public getMovies(): Observable<Movie[]>{
     return this.http.get<Movie[]>(`${this.apiServerUrl}/api/MovieAPI`);
+  }
+
+  public updateMovie(movie: Movie): Observable<Movie>{
+    return this.http.put<Movie>(`${this.apiServerUrl}/api/MovieAPI/${movie.id}`,movie);
   }
 
   public deleteMovie(movieid?: number): Observable<void>{

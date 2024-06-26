@@ -11,6 +11,7 @@ import { HttpErrorResponse } from '@angular/common/http';
 export class MovieComponent implements OnInit {
 
   public movies?: Movie[];
+  public editMovie?: Movie | null;
   public deleteMovie?: Movie | null;
 
   constructor(private movieService: MovieService){}
@@ -24,6 +25,18 @@ export class MovieComponent implements OnInit {
       (response: Movie[]) => {
         this.movies = response;
         console.log(this.movies);
+      },
+      (error: HttpErrorResponse) => {
+        alert(error.message);
+      }
+    );
+  }
+
+  public onUpdateMovie(movie: Movie): void{
+    this.movieService.updateMovie(movie).subscribe(
+      (response: Movie) => {
+        console.log(response);
+        this.getMovies();
       },
       (error: HttpErrorResponse) => {
         alert(error.message);
@@ -50,6 +63,10 @@ export class MovieComponent implements OnInit {
     button.style.display = 'none';
     button.setAttribute('data-toggle', 'modal');
     
+    if (mode === 'edit') {
+      this.editMovie = movie;
+      button.setAttribute('data-target', '#updateMovieModal');
+    }
     if (mode === 'delete') {
       this.deleteMovie = movie;
       button.setAttribute('data-target', '#deleteMovieModal');
