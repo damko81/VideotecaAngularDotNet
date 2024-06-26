@@ -21,6 +21,10 @@ export class MovieService {
     return this.http.put<Movie>(`${this.apiServerUrl}/api/MovieAPI/${movie.id}`,movie);
   }
 
+  public addMovie(movie: Movie): Observable<Movie>{
+    return this.http.post<Movie>(`${this.apiServerUrl}/api/MovieAPI`,movie);
+  }
+
   public deleteMovie(movieid?: number): Observable<void>{
     return this.http.delete<void>(`${this.apiServerUrl}/api/MovieAPI/${movieid}`);
   }
