@@ -217,6 +217,32 @@
     </div>
 </div>
 
+ <!-- Delete Movie By Disc Modal -->
+<div class="modal fade" id="deleteMovieByDiscModal" tabindex="-1" role="dialog" aria-labelledby="deleteMovieByDiscModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+      <div class="modal-content">
+         <div class="modal-header">
+            <h5 class="modal-title" id="deleteMovieByDiscModalLabel">Delete Movie By Disc</h5>
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+            </button>
+         </div>
+         <div class="modal-body">
+          <form #deleteForm="ngForm">
+            <div class="form-group">
+               <label for="disc">Disc:</label>
+               <input type="text" #discx="ngModel" ngModel name="disc" class="form-control" id="disc" placeholder="Disc" required>
+            </div>
+            <div class="modal-footer">
+               <button type="button" id="delete-movieByDisc-form" class="btn btn-secondary" data-dismiss="modal">Close</button>
+               <button [disabled]="deleteForm.invalid" (click)="confirmMethodDelete(discx.value)" class="btn btn-danger">Delete</button>
+            </div>
+          </form>
+         </div>
+      </div>
+    </div>
+</div>
+
 <!-- Delete Modal -->
 <div class="modal fade" id="deleteMovieModal" tabindex="-1" role="dialog" aria-labelledby="deleteModelLabel" aria-hidden="true">
     <div class="modal-dialog" role="document">

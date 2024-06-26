@@ -73,6 +73,28 @@ export class MovieComponent implements OnInit {
     );
   }
 
+  public onDeleteMovieByDisc(disc: string): void{
+    document.getElementById('delete-movieByDisc-form')?.click();
+    this.movieService.deleteMovieByDisc(disc).subscribe(
+      (response: void) => {
+        console.log(response);
+        this.getMovies();
+      },
+      (error: HttpErrorResponse) => {
+        alert(error.message);
+      }
+    );
+  }
+
+  public confirmMethodDelete(disc: string): void{
+    if(confirm("Are you sure to delete movies on disc "+disc)) {
+      this.onDeleteMovieByDisc(disc);
+    }
+    else{
+      document.getElementById('delete-movieByDisc-form')?.click();
+    }
+  }
+
   public onLoadMovies(disc: string): void{
    
     document.getElementById('load-movies-form')?.click();
@@ -113,7 +135,10 @@ export class MovieComponent implements OnInit {
     if (mode === 'load') {
       button.setAttribute('data-target', '#loadMoviesModal');
     }
-    
+    if (mode === 'deleteMovieByDisc') {
+      button.setAttribute('data-target', '#deleteMovieByDiscModal');
+    }
+
     container?.appendChild(button);
     button.click();
   }
