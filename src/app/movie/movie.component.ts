@@ -14,6 +14,7 @@ export class MovieComponent implements OnInit {
   public movies?: Movie[];
   public editMovie?: Movie | null;
   public deleteMovie?: Movie | null;
+  message = '';
 
   constructor(private movieService: MovieService){}
 
@@ -72,6 +73,26 @@ export class MovieComponent implements OnInit {
     );
   }
 
+  public onLoadMovies(disc: string): void{
+   
+    document.getElementById('load-movies-form')?.click();
+    this.movieService.loadMovies(disc).subscribe(
+      (event: any) => {
+        this.message = event.message;
+        this.getMovies();
+      },
+      (err: any) => {
+        console.log(err);
+        if (err.error && err.error.message) {
+          this.message = err.error.message;
+        } else {
+          this.message = 'Could not upload the movies!';
+        }
+      }
+    );
+   
+  }
+
   public onOpenModal(movie: Movie | null, mode?: string): void {
     const container = document.getElementById('main-container');
     const button = document.createElement('button');
@@ -88,6 +109,9 @@ export class MovieComponent implements OnInit {
     if (mode === 'delete') {
       this.deleteMovie = movie;
       button.setAttribute('data-target', '#deleteMovieModal');
+    }
+    if (mode === 'load') {
+      button.setAttribute('data-target', '#loadMoviesModal');
     }
     
     container?.appendChild(button);
