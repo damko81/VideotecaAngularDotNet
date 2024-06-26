@@ -30,4 +30,21 @@ export class MovieComponent implements OnInit {
     );
   }
 
+  public searchMovies(key: string): void {
+    const results: Movie[]=[];
+    for(const movie of this.movies!){
+      if(  movie.name.toLowerCase().indexOf(key.toLowerCase()) !== -1
+        || movie.genre.toLowerCase().indexOf(key.toLowerCase()) !== -1
+        || movie.director.toLowerCase().indexOf(key.toLowerCase()) !== -1
+        || movie.stars.toLowerCase().indexOf(key.toLowerCase()) !== -1
+        ){
+         results.push(movie);
+         }
+    }
+    this.movies = results;
+    if(results.length === 0 || !key){
+       this.getMovies();
+    }
+  }
+
 }

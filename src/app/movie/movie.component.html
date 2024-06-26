@@ -7,7 +7,7 @@
     
        <form class="form-inline my-2 my-lg-0">
           <input type="search"
-           name="key" id="searchName" #key="ngModel" ngModel class="form-control mr-sm-2" placeholder="Search movies..." required>
+           name="key" id="searchName" (ngModelChange)="searchMovies(key.value)" #key="ngModel" ngModel class="form-control mr-sm-2" placeholder="Search movies..." required>
        </form>
     </div>
 </nav>
