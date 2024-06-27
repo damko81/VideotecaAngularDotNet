@@ -99,6 +99,7 @@ export class MovieComponent implements OnInit {
 
   public onLoadMovies(disc: string): void{
     this.loadProgress = true; // Težava zaradi async funkcije na backend in ne deluje pravilno progressbar.
+    alert("Load Movies Asynchronously... This can takes some times..."); // Zato damo le opozorilno okno o nalaganju...
     document.getElementById('load-movies-form')?.click();
     this.movieService.loadMovies(disc).subscribe(
       (event: any) => {
