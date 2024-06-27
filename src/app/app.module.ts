@@ -9,13 +9,21 @@ import { FormsModule } from '@angular/forms';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { MenuComponent } from './menu/menu.component';
 import { RegisterComponent } from './register/register.component';
+import { LoginComponent } from './login/login.component';
+import { LogoutComponent } from './logout/logout.component';
+import { UsersComponent } from './users/users.component';
+import { FileUploadComponent } from './file-upload/file-upload.component';
 
 @NgModule({
   declarations: [
     AppComponent,
     MovieComponent,
     MenuComponent,
-    RegisterComponent
+    RegisterComponent,
+    LoginComponent,
+    LogoutComponent,
+    UsersComponent,
+    FileUploadComponent
   ],
   imports: [
     MatProgressBarModule,
