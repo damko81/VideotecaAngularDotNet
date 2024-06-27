@@ -38,6 +38,18 @@ export class UsersComponent implements OnInit {
     );
   }
 
+  public onDeleteUsers(id?: number): void{
+    this.usersService.deleteUsers(id).subscribe(
+      (response: void) => {
+        console.log(response);
+        this.getUsers();
+      },
+      (error: HttpErrorResponse) => {
+        alert(error.message);
+      }
+    );
+  }
+
   public resetChangedPassword(): void{
     this.invalidChangePassword = false;
     this.changePassword = false;
