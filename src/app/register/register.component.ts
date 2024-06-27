@@ -37,8 +37,8 @@ export class RegisterComponent {
       this.http.post(`${this.apiServerUrl}/api/UsersAPI`,bodyData,{responseType: 'text'}).subscribe((resultData: any)=>
       {
         if (resultData == "" || resultData == null){
-          this.invalidRegist = true;
-          this.message = "User Registered Faild";
+              this.invalidRegist = true;
+              this.message = "User Registered Faild";
         }
         else{  
           
