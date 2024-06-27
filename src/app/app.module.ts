@@ -7,11 +7,15 @@ import { MovieComponent } from './movie/movie.component';
 import { HttpClientModule } from '@angular/common/http';
 import { FormsModule } from '@angular/forms';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { MenuComponent } from './menu/menu.component';
+import { RegisterComponent } from './register/register.component';
 
 @NgModule({
   declarations: [
     AppComponent,
-    MovieComponent
+    MovieComponent,
+    MenuComponent,
+    RegisterComponent
   ],
   imports: [
     MatProgressBarModule,

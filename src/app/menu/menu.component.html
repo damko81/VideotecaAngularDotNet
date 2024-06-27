@@ -1,0 +1,25 @@
+<header>
+    <nav class="navbar navbar-expand-md navbar-dark bg-dark">
+        <a class="navbar-brand" href="/movie" style="color:white;">Videoteca</a>
+        <ul class="navbar-nav navbar-collapse justify-content-end">
+            <li>
+                <div class="container" id="main-container"><a (click)="onOpenModal('edit')" *ngIf="isLoggedIn" class="nav-link" style="color:white;">{{username}}</a></div>
+            </li>
+            <li>
+                <a *ngIf="!isLoggedIn" class="nav-link" href="/login" style="color:white;">Login</a>
+            </li> 
+            <li>
+                <a *ngIf="isLoggedIn" class="nav-link" href="/logout" (click)=handleLogout() style="color:white;">Logout</a>
+            </li>
+            <li>
+                <a *ngIf="!isLoggedIn" class="nav-link" href="/register" style="color:white;">Register</a>
+            </li>
+            <li>
+               <a *ngIf="isLoggedIn" class="nav-link" href="/file-upload" style="color:white;">Imp/Exp XML</a>
+           </li>
+            <li>
+                <a *ngIf="authLoginSuccess" class="nav-link" href="/users" style="color:white;">Users</a>
+            </li>
+        </ul>
+    </nav>
+</header>
