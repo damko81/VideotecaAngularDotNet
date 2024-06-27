@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
 import { UsersService } from './users.service';
 import { Users } from './users';
 import { HttpErrorResponse } from '@angular/common/http';
@@ -9,6 +9,8 @@ import { HttpErrorResponse } from '@angular/common/http';
   styleUrls: ['./users.component.css']
 })
 export class UsersComponent implements OnInit {
+
+  @ViewChild('closebutton') closebutton: ElementRef | undefined
 
   public users?: Users[];
   public editUsers?: Users | null;
@@ -50,6 +52,27 @@ export class UsersComponent implements OnInit {
     );
   }
 
+  public onUpdateUsers(user: Users): void{
+ 
+    if (this.newPassword != this.newPasswordConf){
+       this.message = "Confirm New Password Invalid";
+       this.invalidChangePassword = true;
+    }
+    else{
+      this.closebutton?.nativeElement.click();
+      if(this.newPassword != ""){user.password=this.newPassword}
+      this.usersService.updateUsers(user).subscribe(
+        (response: Users) => {
+          console.log(response);
+          this.getUsers();
+        },
+        (error: HttpErrorResponse) => {
+          alert(error.message);
+        }
+      );
+   }
+  }
+
   public resetChangedPassword(): void{
     this.invalidChangePassword = false;
     this.changePassword = false;
@@ -57,6 +80,10 @@ export class UsersComponent implements OnInit {
     this.newPasswordConf = "";
     this.message = "";
   }
+
+  public onChangePassword(): void{
+    this.changePassword = true;
+ }
 
   public onOpenModal(user: Users | null, mode?: string): void {
 
@@ -66,9 +93,6 @@ export class UsersComponent implements OnInit {
     button.style.display = 'none';
     button.setAttribute('data-toggle', 'modal');
 
-    if (mode === 'add') {
-      button.setAttribute('data-target', '#addUsersModal');
-    }
     if (mode === 'edit') {
       this.resetChangedPassword();
       this.editUsers = user;
