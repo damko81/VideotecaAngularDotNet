@@ -1,8 +1,10 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { AuthService } from '../login/auth.service';
 import { CookieService } from 'ngx-cookie-service';
 import { UsersService } from '../users/users.service';
+import { Users } from '../users/users';
+import { HttpErrorResponse } from '@angular/common/http';
 
 @Component({
   selector: 'app-menu',
@@ -10,6 +12,8 @@ import { UsersService } from '../users/users.service';
   styleUrls: ['./menu.component.css']
 })
 export class MenuComponent implements OnInit {
+
+  @ViewChild('closebutton') closebutton: ElementRef | undefined
 
   isLoggedIn = false;
   authLoginSuccess: boolean = false;
@@ -64,6 +68,33 @@ export class MenuComponent implements OnInit {
     
     container?.appendChild(button);
     button.click();
+  }
+
+  public onUpdateUsers(user: Users): void{
+ 
+    if (this.newPassword != this.newPasswordConf){
+       this.message = "Confirm New Password Invalid";
+       this.invalidChangePassword = true;
+    }
+    else{
+      this.closebutton?.nativeElement.click();
+      if(this.newPassword != ""){user.password=this.newPassword}
+      this.usersService.updateUsers(user).subscribe(
+        (response: Users) => {
+          console.log(response);
+          this.authenticationService.logout();
+          this.cookieService.set("userName",this.userName);
+          this.router.navigate(['/login']); 
+        },
+        (error: HttpErrorResponse) => {
+          alert(error.message);
+        }
+      );
+   }
+  }
+
+  public onChangePassword(): void{
+    this.changePassword = true;
   }
 
   handleLogout() {
