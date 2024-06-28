@@ -1,4 +1,8 @@
 import { Component, OnInit } from '@angular/core';
+import { ActivatedRoute, Router } from '@angular/router';
+import { AuthService } from '../login/auth.service';
+import { CookieService } from 'ngx-cookie-service';
+import { UsersService } from '../users/users.service';
 
 @Component({
   selector: 'app-menu',
@@ -9,7 +13,7 @@ export class MenuComponent implements OnInit {
 
   isLoggedIn = false;
   authLoginSuccess: boolean = false;
-  username: string = ""; 
+  userName: string = ""; 
   name: string = ""; 
   password: string = "";
   id: string = "";
@@ -19,10 +23,23 @@ export class MenuComponent implements OnInit {
   newPasswordConf: string = "";
   message : string = "";
   
+  constructor(private route: ActivatedRoute,
+              private router: Router,
+              private authenticationService: AuthService, 
+              private cookieService: CookieService,
+              private usersService: UsersService
+             ) { }
+
   ngOnInit(): void {
-
+    
+    if(this.cookieService.get('authLoginSuccess') == 'T'){this.authLoginSuccess = true;}
+    else{this.authLoginSuccess = false;}
+    this.isLoggedIn = this.authenticationService.isUserLoggedIn();
+    this.id = this.cookieService.get("id");
+    this.name = this.cookieService.get("name");
+    this.userName = this.cookieService.get("userName");
+    this.password = this.cookieService.get("passwordEncr");
     console.log('menu ->' + this.isLoggedIn);
-
   }
 
   public resetChangedPassword(): void{
