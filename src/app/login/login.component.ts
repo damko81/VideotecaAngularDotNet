@@ -1,9 +1,10 @@
-import { HttpClient, HttpErrorResponse } from '@angular/common/http';
+import { HttpClient, HttpErrorResponse, HttpRequest } from '@angular/common/http';
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { CookieService } from 'ngx-cookie-service';
 import { environment } from 'src/environments/environment.development';
 import { AuthService } from './auth.service';
+import { Users } from '../users/users';
 
 @Component({
   selector: 'app-login',
@@ -39,7 +40,8 @@ export class LoginComponent implements OnInit {
       userName: this.userName,
       password: this.password,
     }; 
-    this.http.post(`${this.apiServerUrl}/api/LoginAPI`, bodyData).subscribe( 
+
+    this.http.post(`${this.apiServerUrl}/api/UsersAPI/LoginUsersRet`, bodyData).subscribe( 
      (resultData: any) => {
         console.log(resultData);
         this.authenticationService.registerSuccessfulLogin(this.userName, this.password)
