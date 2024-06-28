@@ -67,7 +67,7 @@ export class MenuComponent implements OnInit {
   }
 
   handleLogout() {
-    
+    this.authenticationService.logout();
   }
 
 }

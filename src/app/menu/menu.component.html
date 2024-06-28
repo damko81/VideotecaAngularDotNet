@@ -3,7 +3,7 @@
         <a class="navbar-brand" href="/movie" style="color:white;">Videoteca</a>
         <ul class="navbar-nav navbar-collapse justify-content-end">
             <li>
-                <div class="container" id="main-container"><a (click)="onOpenModal('edit')" *ngIf="isLoggedIn" class="nav-link" style="color:white;">{{username}}</a></div>
+                <div class="container" id="main-container"><a (click)="onOpenModal('edit')" *ngIf="isLoggedIn" class="nav-link" style="color:white;">{{userName}}</a></div>
             </li>
             <li>
                 <a *ngIf="!isLoggedIn" class="nav-link" href="/login" style="color:white;">Login</a>
