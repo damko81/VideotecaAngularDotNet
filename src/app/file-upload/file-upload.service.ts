@@ -1,4 +1,4 @@
-import { HttpClient, HttpEvent } from '@angular/common/http';
+import { HttpClient, HttpEvent, HttpRequest } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { CookieService } from 'ngx-cookie-service';
 import { Observable } from 'rxjs';
@@ -25,6 +25,38 @@ export class FileUploadService {
 
   getFiles(): Observable<any> {
     return this.http.get(`${this.baseUrl}/api/FilesAPI`);
+  }
+
+  export(): Observable<HttpEvent<any>> {
+    const req = new HttpRequest('POST', `${this.baseUrl}/api/FilesAPI/Export`, {
+      reportProgress: true,
+      responseType: 'text'
+    });
+
+    return this.http.request(req);
+  }
+
+  upload(file: File): Observable<HttpEvent<any>> {
+    let fileName:string = this.cookieService.get("userName") + '_' + file.name;
+    const formData: FormData = new FormData();
+
+    formData.append('file', file, fileName);
+
+    const req = new HttpRequest('POST', `${this.baseUrl}/api/FilesAPI/Upload`, formData, {
+      reportProgress: true,
+      responseType: 'text'
+    });
+
+    return this.http.request(req);
+  }
+
+  public loadMoviesFromXml(name: string): Observable<HttpEvent<any>>{
+    const req = new HttpRequest('POST', `${this.baseUrl}/api/FilesAPI/LoadMoviesFromXml/${name}`,{
+      reportProgress: true,
+      responseType: 'text'
+    });
+
+    return this.http.request(req);
   }
 
   public delete(name: string): Observable<HttpEvent<any>>{

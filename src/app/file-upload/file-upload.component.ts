@@ -3,6 +3,7 @@ import { AuthService } from '../login/auth.service';
 import { CookieService } from 'ngx-cookie-service';
 import { FileUploadService } from './file-upload.service';
 import { Observable } from 'rxjs';
+import { HttpEventType, HttpResponse } from '@angular/common/http';
 
 @Component({
   selector: 'app-file-upload',
@@ -55,15 +56,90 @@ export class FileUploadComponent implements OnInit {
   }
 
   export(): void {
-
+    this.progress = 0;
+    this.uploadService.export().subscribe(
+      (event: any) => {
+        if (event.type === HttpEventType.UploadProgress) {
+          this.progress = Math.round(100 * event.loaded / event.total);
+        } else if (event instanceof HttpResponse) {
+          this.message = event.body.message;
+          this.exprFiles = this.uploadService.getDownloadFiles();
+        }
+      },
+      (err: any) => {
+        console.log(err);
+        this.progress = 0;
+        if (err.error && err.error.message) {
+          this.message = err.error.message;
+        } else {
+          this.message = 'Could not export the file!';
+        }
+      });  
   }
 
   upload(): void {
 
+    this.progress = 0;
+
+    if (this.selectedFiles) {
+      const file: File | null = this.selectedFiles.item(0);
+
+      if (file) {
+        this.currentFile = file;
+        if(this.currentFile.name != 'Filmi.xml'){
+          this.message = 'You have to choose file Filmi.xml !';
+        }
+      else{
+        this.uploadService.upload(this.currentFile).subscribe(
+          (event: any) => {
+            if (event.type === HttpEventType.UploadProgress) {
+              this.progress = Math.round(100 * event.loaded / event.total);
+            } else if (event instanceof HttpResponse) {
+              this.message = event.body.message;
+              this.fileInfos = this.uploadService.getFiles();
+              this.fileForLoginInfos = this.uploadService.getForLoginFiles(this.cookieService.get('userName'));
+            }
+          },
+          (err: any) => {
+            console.log(err);
+            this.progress = 0;
+
+            if (err.error && err.error.message) {
+              this.message = err.error.message;
+            } else {
+              this.message = 'Could not upload the file!';
+            }
+
+            this.currentFile = undefined;
+          });
+        }
+      }
+      this.selectedFiles = undefined;
+    }
   }
 
   loadMoviesFromXml(name: string): void {
+    this.uploadService.loadMoviesFromXml(name).subscribe(
+      (event: any) => {
+            if (event.type === HttpEventType.UploadProgress) {
+              this.progress = Math.round(100 * event.loaded / event.total);
+            } else if (event instanceof HttpResponse) {
+              this.message = event.body.message;
+              this.fileInfos = this.uploadService.getFiles();
+              this.fileForLoginInfos = this.uploadService.getForLoginFiles(this.cookieService.get('userName'));
+            }
+      },
+      (err: any) => {
+            console.log(err);
+            this.progress = 0;
 
+            if (err.error && err.error.message) {
+              this.message = err.error.message;
+            } else {
+              this.message = 'Could not upload the file!';
+            }
+      }
+    );
   }
 
   public onOpenModal(filename: string  | null,mode?: string): void {
