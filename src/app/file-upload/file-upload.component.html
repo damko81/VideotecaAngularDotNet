@@ -1,1 +1,103 @@
-<p>file-upload works!</p>
+<app-menu></app-menu>
+<div class="row">
+    <div class="col-8">
+      <label style="margin-left: 15px" class="btn btn-default p-0">
+        <input type="file" (change)="selectFile($event)" />
+      </label>
+    </div>
+    <div style="margin-left: 15px"  class="col-4">
+      <button class="btn btn-success btn-sm" [disabled]="!selectedFiles" (click)="upload()">
+        Upload
+      </button>
+      <button style="margin-left: 18px" class="btn btn-success btn-sm" (click)="export()">
+        Export
+      </button>
+      <div style="margin-top: 10px" class="card-header">List of exported Filmi.xml Files</div>
+        <table class="table">
+          <thead>
+            <tr>
+                <th>File Name</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr *ngFor="let e of exprFiles  | async">
+                <td><a style="color:blue;" href="{{e.url}}">{{e.name}}</a></td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+</div>
+<div *ngIf="currentFile" class="progress my-3">
+    <div
+        class="progress-bar progress-bar-info progress-bar-striped"
+        role="progressbar"
+        attr.aria-valuenow="{{ progress }}"
+        aria-valuemin="0"
+        aria-valuemax="100"
+        [ngStyle]="{ width: progress + '%' }"
+    >
+        {{ progress }}%
+    </div>
+</div>
+<div *ngIf="isLoggedIn" class="alert alert-secondary" role="alert">{{ message }}</div>
+<div *ngIf="isLoggedIn" style="margin-left: 6px" class="container p-2" id="main-container">
+    <div class="card-header">List for import Login Filmi.xml Files</div>
+    <table class="table">
+        <thead>
+          <tr>
+            <th>File Name</th>
+            <th>Action</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let file of fileForLoginInfos | async">
+            <td><a style="color:blue;" href="{{file.url}}">{{file.name}}</a></td>
+            <td>   
+                  <button class='btn btn-primary tooltips' (click)="loadMoviesFromXml(file.name)">Load Movies</button>
+                  <button style="margin-left: 10px" class='btn btn-danger' (click)="onOpenModal(file.name,'delete')">Delete</button>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+</div>
+<div *ngIf="isLoggedIn" style="margin-left: 6px" class="container p-2" id="main-container">
+    <div class="card-header">List for import All Filmi.xml Files</div>
+    <table class="table">
+        <thead>
+          <tr>
+            <th>File Name</th>
+            <th>Action</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let file of fileInfos | async">
+            <td><a style="color:blue;" href="{{file.url}}">{{file.name}}</a></td>
+            <td>   
+                  <button class='btn btn-primary tooltips' (click)="loadMoviesFromXml(file.name)">Load Movies</button>
+                  <button style="margin-left: 10px" class='btn btn-danger' (click)="onOpenModal(file.name,'delete')">Delete</button>
+            </td>
+          </tr>
+        </tbody>
+    </table>
+</div> 
+
+<!-- Delete Modal -->
+<div class="modal fade" id="deleteFileModal" tabindex="-1" role="dialog" aria-labelledby="deleteFileLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+       <div class="modal-content">
+          <div class="modal-header">
+             <h5 class="modal-title" id="deleteFileLabel">Delete File</h5>
+             <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+             </button>
+          </div>
+          <div class="modal-body">
+             <p>Are you sure you want to delete file {{deleteFileName}} ?</p>
+             <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">No</button>
+                <button (click)="delete(deleteFileName!)" class="btn btn-danger" data-dismiss="modal">Yes</button>
+             </div>
+          </div>
+       </div>
+    </div>
+</div>
