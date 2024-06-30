@@ -37,7 +37,7 @@ export class FileUploadService {
   }
 
   upload(file: File): Observable<HttpEvent<any>> {
-    let fileName:string = this.cookieService.get("userName") + '_' + file.name;
+    let fileName: string = this.cookieService.get("userName") + '_' + file.name;
     const formData: FormData = new FormData();
 
     formData.append('file', file, fileName);
