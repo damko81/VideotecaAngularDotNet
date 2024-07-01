@@ -58,7 +58,7 @@
             <td>{{file.createdDate | date : "short"}}</td>
             <td>   
                   <button class='btn btn-primary tooltips' (click)="loadMoviesFromXml(file.name)">Load Movies</button>
-                  <button style="margin-left: 10px" class='btn btn-danger' (click)="onOpenModal(file.name,'delete')">Delete</button>
+                  <button style="margin-left: 10px" class='btn btn-danger' (click)="onOpenModal(file.id,file.name,'delete')">Delete</button>
             </td>
           </tr>
         </tbody>
@@ -80,7 +80,7 @@
             <td>{{file.createdDate | date : "short"}}</td>
             <td>   
                   <button class='btn btn-primary tooltips' (click)="loadMoviesFromXml(file.name)">Load Movies</button>
-                  <button style="margin-left: 10px" class='btn btn-danger' (click)="onOpenModal(file.name,'delete')">Delete</button>
+                  <button style="margin-left: 10px" class='btn btn-danger' (click)="onOpenModal(file.id,file.name,'delete')">Delete</button>
             </td>
           </tr>
         </tbody>
@@ -101,7 +101,7 @@
              <p>Are you sure you want to delete file {{deleteFileName}} ?</p>
              <div class="modal-footer">
                 <button type="button" class="btn btn-secondary" data-dismiss="modal">No</button>
-                <button (click)="delete(deleteFileName!)" class="btn btn-danger" data-dismiss="modal">Yes</button>
+                <button (click)="delete(deleteId!)" class="btn btn-danger" data-dismiss="modal">Yes</button>
              </div>
           </div>
        </div>

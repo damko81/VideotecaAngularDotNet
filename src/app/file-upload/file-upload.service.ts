@@ -59,8 +59,8 @@ export class FileUploadService {
     return this.http.request(req);
   }
 
-  public delete(name: string): Observable<HttpEvent<any>>{
-    return this.http.delete<HttpEvent<any>>(`${this.baseUrl}/api/FilesAPI/${name}`);
+  public delete(id: number): Observable<HttpEvent<any>>{
+    return this.http.delete<HttpEvent<any>>(`${this.baseUrl}/api/FilesAPI/${id}`);
   }
              
 }
