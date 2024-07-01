@@ -4,6 +4,7 @@ import { CookieService } from 'ngx-cookie-service';
 import { FileUploadService } from './file-upload.service';
 import { Observable } from 'rxjs';
 import { HttpEventType, HttpResponse } from '@angular/common/http';
+import { DomSanitizer } from '@angular/platform-browser';
 
 @Component({
   selector: 'app-file-upload',
@@ -12,6 +13,7 @@ import { HttpEventType, HttpResponse } from '@angular/common/http';
 })
 export class FileUploadComponent implements OnInit {
 
+  fileUrl: any;
   selectedFiles?: FileList;
   exprFiles?: Observable<any>;
   fileForLoginInfos?: Observable<any>;
@@ -26,7 +28,8 @@ export class FileUploadComponent implements OnInit {
 
   constructor( private uploadService: FileUploadService,
                private authenticationService: AuthService, 
-               private cookieService: CookieService
+               private cookieService: CookieService,
+               private sanitizer: DomSanitizer
              ) { }
 
   ngOnInit(): void {
@@ -141,6 +144,22 @@ export class FileUploadComponent implements OnInit {
             }
       }
     );
+  }
+
+  downloadFile(file: any): void {
+    var content= this.base64ToArrayBuffer(file.data);
+    const blob = new Blob([content], { type: 'application/octet-stream' });
+    this.fileUrl = this.sanitizer.bypassSecurityTrustResourceUrl(window.URL.createObjectURL(blob));
+  }
+
+  base64ToArrayBuffer(base64: any): ArrayBuffer {
+    var binary_string = window.atob(base64);
+    var len = binary_string.length;
+    var bytes = new Uint8Array(len);
+    for (var i = 0; i < len; i++) {
+      bytes[i] = binary_string.charCodeAt(i);
+    }
+    return bytes.buffer;
   }
 
   public onOpenModal(id: number | null,filename: string | null,mode?: string): void {

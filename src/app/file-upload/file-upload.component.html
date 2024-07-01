@@ -22,7 +22,7 @@
           </thead>
           <tbody>
             <tr *ngFor="let e of exprFiles  | async">
-                <td><a style="color:blue;" href="{{e.path}}">{{e.name}}</a></td>
+                <td><a style="color:blue;" [href]="fileUrl" (click)="downloadFile(e)" download="{{e.name}}" >{{e.name}}</a></td>
                 <td>{{e.createdDate | date : "short"}}</td>
             </tr>
           </tbody>
@@ -54,7 +54,7 @@
         </thead>
         <tbody>
           <tr *ngFor="let file of fileForLoginInfos | async">
-            <td><a style="color:blue;" href="{{file.path}}">{{file.name}}</a></td>
+            <td><a style="color:blue;" [href]="fileUrl" (click)="downloadFile(file)" download="{{file.name}}" >{{file.name}}</a></td>
             <td>{{file.createdDate | date : "short"}}</td>
             <td>   
                   <button class='btn btn-primary tooltips' (click)="loadMoviesFromXml(file.name)">Load Movies</button>
@@ -76,7 +76,7 @@
         </thead>
         <tbody>
           <tr *ngFor="let file of fileInfos | async">
-            <td><a style="color:blue;" href="{{file.path}}">{{file.name}}</a></td>
+            <td><a style="color:blue;" [href]="fileUrl" (click)="downloadFile(file)" download="{{file.name}}" >{{file.name}}</a></td>
             <td>{{file.createdDate | date : "short"}}</td>
             <td>   
                   <button class='btn btn-primary tooltips' (click)="loadMoviesFromXml(file.name)">Load Movies</button>
