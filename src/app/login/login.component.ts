@@ -1,10 +1,8 @@
-import { HttpClient, HttpErrorResponse, HttpRequest } from '@angular/common/http';
+import { HttpClient } from '@angular/common/http';
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { CookieService } from 'ngx-cookie-service';
-import { environment } from 'src/environments/environment.development';
 import { AuthService } from './auth.service';
-import { Users } from '../users/users';
 
 @Component({
   selector: 'app-login',
@@ -12,8 +10,6 @@ import { Users } from '../users/users';
   styleUrls: ['./login.component.css']
 })
 export class LoginComponent implements OnInit {
-
-  private apiServerUrl = environment.apiBaseUrl;
 
   public userName: string = "";
   public password : string = "";
@@ -34,32 +30,22 @@ export class LoginComponent implements OnInit {
     this.userName = this.cookieService.get("userName");
   }
 
+  handleLoginAuth() {
+    this.authenticationService.authenticationService(this.userName, this.password).subscribe((result)=> {
+    this.invalidLogin = false;
+    this.loginSuccess = true;
+    this.authLoginSuccess = true;
+    this.authenticationService.setAuthLoginSuccess(true);
+    this.successMessage = 'Login Successful.';
+    this.router.navigate(['/movie']);
+  }, () => {
+    this.invalidLogin = true;
+    this.loginSuccess = false;
+  });      
+}
+
   Login() {
-
-    let bodyData = {
-      userName: this.userName,
-      password: this.password,
-    }; 
-
-    this.http.post(`${this.apiServerUrl}/api/UsersAPI/LoginUsersRet`, bodyData).subscribe( 
-     (resultData: any) => {
-        console.log(resultData);
-        this.authenticationService.registerSuccessfulLogin(this.userName, this.password)
-        this.cookieService.set("id", resultData.id);
-        this.cookieService.set("name", resultData.name);
-        this.cookieService.set("passwordEncr", resultData.password);
-        this.invalidLogin = false;
-        this.loginSuccess = true;
-        this.successMessage = 'Login Successful.';
-        this.router.navigate(['/movie']); 
-      },
-      (error: HttpErrorResponse) => {
-        this.invalidLogin = true;
-        this.loginSuccess = false;
-        this.errorMessage = "Incorrect Username and Password not match";
-      }
-    );
-
+    this.handleLoginAuth();
   }
 
 }
