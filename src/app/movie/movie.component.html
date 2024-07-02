@@ -5,13 +5,13 @@
     </button>
     <div class="collapse navbar-collapse" id="navbarColor02">
        <ul class="navbar-nav mr-auto">
-          <li class="nav-item active">
+          <li *ngIf="isLoggedIn" class="nav-item active">
              <a class="nav-link" (click)="onOpenModal(null,'add')">Add Movie <span class="sr-only">(current)</span></a>
           </li>
-          <li class="nav-item active">
+          <li *ngIf="isLoggedIn" class="nav-item active">
              <a class="nav-link" (click)="onOpenModal(null,'load')">Load Movies <span class="sr-only">(current)</span></a>
           </li>
-          <li class="nav-item active">
+          <li *ngIf="isLoggedIn" class="nav-item active">
              <a class="nav-link" (click)="onOpenModal(null,'deleteMovieByDisc')">Delete Movies Disc<span class="sr-only">(current)</span></a>
           </li>
        </ul>
@@ -45,7 +45,7 @@
              <div class="card-body">
                 <div class="float-right btn-group btn-group-sm">
                    <a (click)="onOpenModal(movie,'edit')" class="btn btn-primary tooltips" data-placement="top" data-original-title="Edit"><i class="fa fa-pencil"></i> </a>
-                   <a (click)="onOpenModal(movie,'delete')" class="btn btn-secondary tooltips" data-placement="top" data-original-title="Delete"><i class="fa fa-times"></i></a>
+                   <a *ngIf="isLoggedIn" (click)="onOpenModal(movie,'delete')" class="btn btn-secondary tooltips" data-placement="top" data-original-title="Delete"><i class="fa fa-times"></i></a>
                 </div>
              </div>
         </div>
@@ -183,7 +183,7 @@
                 </div>
                 <div class="modal-footer">
                    <button type="button" data-dismiss="modal" class="btn btn-secondary">Close</button>
-                   <button (click)="onUpdateMovie(editForm.value)" data-dismiss="modal" class="btn btn-primary">Save changes</button>
+                   <button *ngIf="isLoggedIn" (click)="onUpdateMovie(editForm.value)" data-dismiss="modal" class="btn btn-primary">Save changes</button>
                 </div>
              </form>
           </div>

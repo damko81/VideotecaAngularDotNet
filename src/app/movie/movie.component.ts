@@ -3,6 +3,7 @@ import { Movie } from './movie';
 import { MovieService } from './movie.service';
 import { HttpErrorResponse } from '@angular/common/http';
 import { NgForm } from '@angular/forms';
+import { AuthService } from '../login/auth.service';
 
 @Component({
   selector: 'app-movie',
@@ -14,12 +15,16 @@ export class MovieComponent implements OnInit {
   public movies?: Movie[];
   public editMovie?: Movie | null;
   public deleteMovie?: Movie | null;
+  public isLoggedIn = false;
   loadProgress = false;
   message = '';
 
-  constructor(private movieService: MovieService){}
+  constructor(private movieService: MovieService, 
+              private authenticationService: AuthService
+             ) { }
 
   ngOnInit(): void {
+    this.isLoggedIn = this.authenticationService.isUserLoggedIn();
     this.getMovies();
   }
 
