@@ -34,8 +34,7 @@ export class RegisterComponent {
         "username" : this.username,
         "password" : this.password
       };
-      this.http.post(`${this.apiServerUrl}/api/UsersAPI`,bodyData,{responseType: 'text'}).subscribe((resultData: any)=>
-      {
+      this.http.post(`${this.apiServerUrl}/api/UsersAPI`,bodyData,{responseType: 'text'}).subscribe((resultData: any)=>{
         if (resultData == "" || resultData == null){
               this.invalidRegist = true;
               this.message = "User Registered Faild";
@@ -45,7 +44,10 @@ export class RegisterComponent {
               this.message = "User Registered Successfully";
               this.router.navigate(['/login']);  
         }
-      });
+      }, () => {
+                  this.invalidRegist = true;
+                  this.message = "UserName already Exists!";
+      });      
     }
   }
 
