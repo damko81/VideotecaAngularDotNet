@@ -1,8 +1,9 @@
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpErrorResponse } from '@angular/common/http';
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { CookieService } from 'ngx-cookie-service';
 import { AuthService } from './auth.service';
+import { environment } from 'src/environments/environment.development';
 
 @Component({
   selector: 'app-login',
@@ -10,6 +11,8 @@ import { AuthService } from './auth.service';
   styleUrls: ['./login.component.css']
 })
 export class LoginComponent implements OnInit {
+
+  private apiServerUrl = environment.apiBaseUrl;
 
   public userName: string = "";
   public password : string = "";
@@ -36,8 +39,13 @@ export class LoginComponent implements OnInit {
     this.loginSuccess = true;
     this.authLoginSuccess = true;
     this.authenticationService.setAuthLoginSuccess(true);
-    this.successMessage = 'Login Successful.';
-    this.router.navigate(['/movie']);
+    if (this.userName != 'admin'){
+      this.GetUserLoginData();
+    }
+    else {
+      this.router.navigate(['/movie']); 
+    }
+    
   }, () => {
     this.invalidLogin = true;
     this.loginSuccess = false;
@@ -46,6 +54,26 @@ export class LoginComponent implements OnInit {
 
   Login() {
     this.handleLoginAuth();
+  }
+
+  GetUserLoginData(){
+      let bodyData = {
+        username: this.userName,
+        password: this.password,
+      };
+      this.http.post(`${this.apiServerUrl}/api/UsersAPI/LoginUsersRet`, bodyData).subscribe(  (resultData: any) => {
+          console.log(resultData);
+          this.cookieService.set("id", resultData.id);
+          this.cookieService.set("name", resultData.name);
+          this.cookieService.set("passwordEncr", resultData.password);
+          this.successMessage = 'Login Successful.';
+          this.router.navigate(['/movie']); 
+          },
+          (error: HttpErrorResponse) => {
+            this.invalidLogin = true;
+            this.loginSuccess = false;
+          }
+      );
   }
 
 }
