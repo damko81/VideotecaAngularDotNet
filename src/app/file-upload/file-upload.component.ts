@@ -21,6 +21,7 @@ export class FileUploadComponent implements OnInit {
   currentFile?: File;
   authLoginSuccess: boolean = false;
   isLoggedIn = false;
+  isAdmUser: boolean = false;
   deleteId?: number | null;
   deleteFileName?: string | null;
   progress = 0;
@@ -35,6 +36,7 @@ export class FileUploadComponent implements OnInit {
   ngOnInit(): void {
     if(this.cookieService.get('authLoginSuccess') == 'T'){this.authLoginSuccess = true;}
     else{this.authLoginSuccess = false;}
+    if(this.cookieService.get('userName') == "admin"){this.isAdmUser = true;}
     this.isLoggedIn = this.authenticationService.isUserLoggedIn();
     this.exprFiles = this.uploadService.getDownloadFiles();
     this.fileForLoginInfos = this.uploadService.getForLoginFiles(this.cookieService.get('userName'));

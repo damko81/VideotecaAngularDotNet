@@ -17,6 +17,7 @@ export class MenuComponent implements OnInit {
 
   isLoggedIn = false;
   authLoginSuccess: boolean = false;
+  isAdmUser: boolean = false;
   userName: string = ""; 
   name: string = ""; 
   password: string = "";
@@ -43,6 +44,7 @@ export class MenuComponent implements OnInit {
     this.name = this.cookieService.get("name");
     this.userName = this.cookieService.get("userName");
     this.password = this.cookieService.get("passwordEncr");
+    if(this.userName == "admin"){this.isAdmUser = true;}
     console.log('menu ->' + this.isLoggedIn);
   }
 
