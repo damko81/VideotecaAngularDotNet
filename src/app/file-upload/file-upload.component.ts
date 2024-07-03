@@ -127,13 +127,9 @@ export class FileUploadComponent implements OnInit {
   public loadMoviesFromXml(id: number | null): void {
     this.uploadService.loadMoviesFromXml(id!).subscribe(
       (event: any) => {
-            if (event.type === HttpEventType.UploadProgress) {
-              this.progress = Math.round(100 * event.loaded / event.total);
-            } else if (event instanceof HttpResponse) {
-              this.message = event.body.message;
+              this.message = "Uploade from XML file COMPLETE";
               this.fileInfos = this.uploadService.getFiles();
               this.fileForLoginInfos = this.uploadService.getForLoginFiles(this.cookieService.get('userName'));
-            }
       },
       (err: any) => {
             console.log(err);
