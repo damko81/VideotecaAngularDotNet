@@ -124,8 +124,8 @@ export class FileUploadComponent implements OnInit {
     }
   }
 
-  loadMoviesFromXml(name: string): void {
-    this.uploadService.loadMoviesFromXml(name).subscribe(
+  public loadMoviesFromXml(id: number | null): void {
+    this.uploadService.loadMoviesFromXml(id!).subscribe(
       (event: any) => {
             if (event.type === HttpEventType.UploadProgress) {
               this.progress = Math.round(100 * event.loaded / event.total);

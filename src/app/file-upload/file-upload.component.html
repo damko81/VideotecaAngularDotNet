@@ -57,7 +57,7 @@
             <td><a style="color:blue;" [href]="fileUrl" (click)="downloadFile(file)" download="{{file.name}}" >{{file.name}}</a></td>
             <td>{{file.createdDate | date : "short"}}</td>
             <td>   
-                  <button class='btn btn-primary tooltips' (click)="loadMoviesFromXml(file.name)">Load Movies</button>
+                  <button class='btn btn-primary tooltips' (click)="loadMoviesFromXml(file.id)">Load Movies</button>
                   <button style="margin-left: 10px" class='btn btn-danger' (click)="onOpenModal(file.id,file.name,'delete')">Delete</button>
             </td>
           </tr>
@@ -79,7 +79,7 @@
             <td><a style="color:blue;" [href]="fileUrl" (click)="downloadFile(file)" download="{{file.name}}" >{{file.name}}</a></td>
             <td>{{file.createdDate | date : "short"}}</td>
             <td>   
-                  <button class='btn btn-primary tooltips' (click)="loadMoviesFromXml(file.name)">Load Movies</button>
+                  <button class='btn btn-primary tooltips' (click)="loadMoviesFromXml(file.id)">Load Movies</button>
                   <button style="margin-left: 10px" class='btn btn-danger' (click)="onOpenModal(file.id,file.name,'delete')">Delete</button>
             </td>
           </tr>

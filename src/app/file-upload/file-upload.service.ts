@@ -50,8 +50,8 @@ export class FileUploadService {
     return this.http.request(req);
   }
 
-  public loadMoviesFromXml(name: string): Observable<HttpEvent<any>>{
-    const req = new HttpRequest('POST', `${this.baseUrl}/api/FilesAPI/LoadMoviesFromXml/${name}`,{
+  public loadMoviesFromXml(id: number): Observable<HttpEvent<any>>{
+    const req = new HttpRequest('POST', `${this.baseUrl}/api/FilesAPI/LoadMoviesFromXml/${id}`,{
       reportProgress: true,
       responseType: 'text'
     });
